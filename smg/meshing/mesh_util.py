@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import open3d as o3d
+import os
 
 from smg.opengl import OpenGLTriMesh
 
@@ -28,16 +29,16 @@ class MeshUtil:
 
     # noinspection PyArgumentList
     @staticmethod
-    def load_tello_mesh(filename: str) -> o3d.geometry.TriangleMesh:
+    def load_tello_mesh() -> o3d.geometry.TriangleMesh:
         """
-        Load the DJI Tello mesh from the specified file.
+        Load the DJI Tello mesh.
 
         .. note::
             There is a special function for this because the mesh needs some processing to get it into a usable format.
 
-        :param filename:    The name of the file containing the DJI Tello mesh.
-        :return:            The DJI Tello mesh.
+        :return:    The DJI Tello mesh.
         """
+        filename: str = os.path.abspath(os.path.join(__file__, "../../../resources/tello.ply"))
         mesh: o3d.geometry.TriangleMesh = o3d.io.read_triangle_mesh(filename)
         mesh.translate(-mesh.get_center())
         mesh.scale(0.002, np.zeros(3))
